@@ -25,3 +25,13 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+    - name: Cache browser binary
+      uses: actions/cache@v3
+      id: browser-cache
+      with:
+        path: ~/.cache/playwright
+        key: ${{ runner.os }}-playwright-${{ hashFiles('playwright.config.ts') }}
+    - name: Run Playwright tests
+      run: |
+        playwright install
+        playwright test
